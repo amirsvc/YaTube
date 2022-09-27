@@ -252,8 +252,8 @@ class PostPagesTests(TestCase):
         response = self.authorized_client.get(INDEX)
         self.assertEqual(cache_1, cache_2)
         cache.clear()
-        response = self.authorized_client.get(INDEX)
-        self.assertNotEqual(cache_2, response.content)
+        cache_3 = self.authorized_client.get(INDEX)
+        self.assertNotEqual(cache_3, response.content)
 
     def test_follow(self):
         self.follwer_client.get(self.FOLLOW_PAGE)
