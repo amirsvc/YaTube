@@ -249,9 +249,10 @@ class PostPagesTests(TestCase):
         post.delete()
         response = self.authorized_client.get(INDEX)
         cache_2 = response.content
-        cache.clear()
         response = self.authorized_client.get(INDEX)
         self.assertEqual(cache_1, cache_2)
+        cache.clear()
+        response = self.authorized_client.get(INDEX)
         self.assertNotEqual(cache_2, response.content)
 
     def test_follow(self):
