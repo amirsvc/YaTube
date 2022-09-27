@@ -1,4 +1,3 @@
-from xml.etree.ElementTree import Comment
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -122,6 +121,7 @@ def add_comment(request, post_id):
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
 
+
 @login_required
 def follow_index(request):
     template = 'posts/follow.html'
@@ -134,6 +134,7 @@ def follow_index(request):
     }
     return render(request, template, context)
 
+
 @login_required
 def profile_follow(request, username):
     user = request.user
@@ -145,6 +146,7 @@ def profile_follow(request, username):
         )
         return redirect('posts:follow_index')
     return redirect('posts:profile', username=username)
+
 
 @login_required
 def profile_unfollow(request, username):
