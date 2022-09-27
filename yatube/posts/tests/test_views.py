@@ -83,10 +83,10 @@ class PostPagesTests(TestCase):
         cls.POST_DETAIL = reverse('posts:post_detail', args=[cls.post[0].id])
         cls.POST_EDIT = reverse('posts:post_edit', args=[cls.post[0].id])
         cls.FOLLOW_PAGE = reverse(
-            'posts:profile_follow', args=[cls.user]
+            'posts:profile_follow', args={USER_NAME}
         )
         cls.UNFOLLOW_PAGE = reverse(
-            'posts:profile_unfollow', args=[cls.user]
+            'posts:profile_unfollow', args={USER_NAME}
         )
         cls.post = Comment.objects.create(
             author=cls.user,
@@ -269,8 +269,8 @@ class PostPagesTests(TestCase):
         new_post = Post.objects.create(
             author=self.user,
             text="Текст нового поста")
-        response = self.follower_client.get(self.FOLLOW_PAGE, args={self.user})
-        response = self.follower_client.get(INDEX_FOLLOW)
+        response = self.follower_client.get(self.FOLLOW_PAGE)
+        response = self.follower_cllent.get(INDEX_FOLLOW)
         self.assertIn(new_post, response.context['page_obj'].object_list)
 
     def test_not_follower_dont_see_new_post(self):
