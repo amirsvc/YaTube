@@ -1,4 +1,3 @@
-from turtle import mode
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -46,7 +45,6 @@ class Post(CreatedModel):
 
     class Meta:
         verbose_name_plural = "Посты"
-        ordering = ("-pub_date",)
 
     def __str__(self) -> str:
         return self.text[:15]

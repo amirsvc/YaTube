@@ -96,7 +96,11 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     post_item = get_object_or_404(Post, pk=post_id, author=request.user)
-    form = PostForm(request.POST or None, files=request.FILES or None, instance=post_item)
+    form = PostForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=post_item
+    )
     if form.is_valid():
         form.save()
         return redirect('posts:post_detail', post_item.id)
