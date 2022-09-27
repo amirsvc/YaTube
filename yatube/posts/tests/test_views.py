@@ -269,7 +269,7 @@ class PostPagesTests(TestCase):
         new_post = Post.objects.create(
             author=self.user,
             text="Текст нового поста")
-        response = self.follwer_client.get(INDEX_FOLLOW)
+        response = self.follwer_client.get(self.FOLLOW_PAGE, args={self.user})
         self.assertIn(new_post, response.context['page_obj'].object_list)
 
     def test_not_follower_dont_see_new_post(self):
