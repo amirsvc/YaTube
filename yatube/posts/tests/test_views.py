@@ -103,8 +103,8 @@ class PostPagesTests(TestCase):
         cache.clear()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        self.follwer_client = Client()
-        self.follwer_client.force_login(self.user_follow)
+        self.follower_client = Client()
+        self.follower_client.force_login(self.user_follow)
         self.another_client = Client()
         self.another_client.force_login(self.user_another)
 
@@ -256,12 +256,12 @@ class PostPagesTests(TestCase):
         self.assertNotEqual(cache_3, response.content)
 
     def test_follow(self):
-        self.follwer_client.get(self.FOLLOW_PAGE)
+        self.follower_client.get(self.FOLLOW_PAGE)
         self.assertTrue(Follow.objects.filter(
             user=self.user_follow, author=self.user).exists())
 
     def test_unfollow(self):
-        self.follwer_client.get(self.UNFOLLOW_PAGE)
+        self.follower_client.get(self.UNFOLLOW_PAGE)
         self.assertTrue(Follow.objects.filter(
             user=self.user_follow, author=self.user).exists())
 
@@ -269,7 +269,8 @@ class PostPagesTests(TestCase):
         new_post = Post.objects.create(
             author=self.user,
             text="Текст нового поста")
-        response = self.follwer_client.get(self.FOLLOW_PAGE, args={self.user})
+        response = self.follower_client.get(self.FOLLOW_PAGE, args={self.user})
+        response = self.follower_cllient.get(INDEX_FOLLOW)
         self.assertIn(new_post, response.context['page_obj'].object_list)
 
     def test_not_follower_dont_see_new_post(self):
