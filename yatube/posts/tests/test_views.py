@@ -83,10 +83,10 @@ class PostPagesTests(TestCase):
         cls.POST_DETAIL = reverse('posts:post_detail', args=[cls.post[0].id])
         cls.POST_EDIT = reverse('posts:post_edit', args=[cls.post[0].id])
         cls.FOLLOW_PAGE = reverse(
-            'posts:profile_follow', args=[cls.user_follow]
+            'posts:profile_follow', args=[cls.user]
         )
         cls.UNFOLLOW_PAGE = reverse(
-            'posts:profile_unfollow', args=[cls.user_follow]
+            'posts:profile_unfollow', args=[cls.user]
         )
         cls.post = Comment.objects.create(
             author=cls.user,
