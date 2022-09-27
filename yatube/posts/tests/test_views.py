@@ -269,7 +269,7 @@ class PostPagesTests(TestCase):
         new_post = Post.objects.create(
             author=self.user,
             text="Текст нового поста")
-        response = self.follower_client.get(self.FOLLOW_PAGE)
+        self.follower_client.get(self.FOLLOW_PAGE)
         response = self.follower_client.get(INDEX_FOLLOW)
         self.assertIn(new_post, response.context['page_obj'].object_list)
 
