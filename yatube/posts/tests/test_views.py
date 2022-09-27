@@ -262,16 +262,15 @@ class PostPagesTests(TestCase):
 
     def test_unfollow(self):
         self.follower_client.get(self.UNFOLLOW_PAGE)
-        self.assertTrue(Follow.objects.filter(
+        self.assertFalse(Follow.objects.filter(
             user=self.user_follow, author=self.user).exists())
 
     def test_follower_see_new_post(self):
         new_post = Post.objects.create(
             author=self.user,
             text="Текст нового поста")
-        self.follower_client.get(self.FOLLOW_PAGE)
         response = self.follower_client.get(INDEX_FOLLOW)
-        self.assertIn(new_post, response.context['page_obj'].object_list)
+        self.assertIn(new_post, response.context['page_obj'].paginator.page(2))
 
     def test_not_follower_dont_see_new_post(self):
         new_post = Post.objects.create(
