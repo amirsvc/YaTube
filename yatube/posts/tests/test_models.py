@@ -36,7 +36,7 @@ class PostModelTest(TestCase):
     def test_model_group_have_correct_object_names(self):
         object_name_group = self.group.title
         self.assertEqual(object_name_group, str(self.group.title))
-    
+
     def test_comment_have_correct_object_name(self):
         object_name_comment = self.comment.text[:15]
         self.assertEqual(object_name_comment, str(self.comment))
