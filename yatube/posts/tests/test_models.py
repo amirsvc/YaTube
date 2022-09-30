@@ -1,21 +1,31 @@
 from django.test import TestCase
 
-from ..models import Group, Post, User
+from ..models import Comment, Follow, Group, Post, User
 
 
 class PostModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = User.objects.create_user(username='auth')
+        cls.user_author = User.objects.create_user(username='auth')
+        cls.user_follower = User.objects.create_user(username='man')
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test_slug',
             description='Тестовое описание',
         )
         cls.post = Post.objects.create(
-            author=cls.user,
+            author=cls.user_author,
             text='Тестовый пост',
+        )
+        cls.comment = Comment.objects.create(
+            author=cls.user_follower,
+            text='Тестовый комментарий',
+            post=cls.post,
+        )
+        cls.follow = Follow.objects.create(
+            user=cls.user_follower,
+            author=cls.user_author,
         )
 
     def test_model_post_have_correct_object_names(self):
@@ -26,6 +36,10 @@ class PostModelTest(TestCase):
     def test_model_group_have_correct_object_names(self):
         object_name_group = self.group.title
         self.assertEqual(object_name_group, str(self.group.title))
+    
+    def test_comment_have_correct_object_name(self):
+        object_name_comment = self.comment.text[:15]
+        self.assertEqual(object_name_comment, str(self.comment))
 
     def test_verbose_name(self):
         post = PostModelTest.post

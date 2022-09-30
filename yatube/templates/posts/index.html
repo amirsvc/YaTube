@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
+{% load cache %}
+{% cache 20 index_page %}`
 {% block content %}
   <div class="container py-5">
     <article>
@@ -30,3 +32,4 @@
       {% include 'posts/includes/paginator.html' %}
   </div>
 {% endblock %}
+{% endcache %}

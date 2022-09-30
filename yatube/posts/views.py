@@ -9,13 +9,13 @@ from .models import Follow, Group, Post, User
 from yatube.settings import QUANTITY
 
 
-@cache_page(20, key_prefix='index_page')
+@cache_page(20, key_prefix="index_page")
 def index(request):
     template = "posts/index.html"
     title = "Последние обновления на сайте"
     posts = Post.objects.all()
     paginator = Paginator(posts, QUANTITY)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
         "page_obj": page_obj,
@@ -30,7 +30,7 @@ def group_posts(request, any_slug):
     title = group
     posts = group.groups_name.all()
     paginator = Paginator(posts, QUANTITY)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
         "group": group,
@@ -46,7 +46,7 @@ def profile(request, username):
     title = f"Профайл пользователя {username}"
     posts = Post.objects.filter(author=user)
     paginator = Paginator(posts, QUANTITY)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     following = request.user.is_authenticated and Follow.objects.filter(
         user=request.user,
@@ -56,7 +56,7 @@ def profile(request, username):
         "author": user,
         "page_obj": page_obj,
         "title": title,
-        'following': following,
+        "following": following,
     }
     return render(request, template, context)
 
@@ -64,7 +64,7 @@ def profile(request, username):
 def post_detail(request, post_id):
     template = "posts/post_detail.html"
     post_item = get_object_or_404(Post, pk=post_id)
-    title = f'Пост { post_item.text[0:30] }'
+    title = f"Пост { post_item.text[0:30] }"
     form = CommentForm(request.POST or None)
     comment = post_item.comments.all()
     context = {
@@ -84,7 +84,7 @@ def post_create(request):
         post = form.save(commit=False)
         post.author = request.user
         post.save()
-        return redirect('posts:profile', request.user.username)
+        return redirect("posts:profile", request.user.username)
     template = "posts/create.html"
     form = PostForm()
     context = {
@@ -103,7 +103,7 @@ def post_edit(request, post_id):
     )
     if form.is_valid():
         form.save()
-        return redirect('posts:post_detail', post_item.id)
+        return redirect("posts:post_detail", post_item.id)
     form = PostForm(instance=post_item)
     template = "posts/create.html"
     context = {
@@ -123,15 +123,15 @@ def add_comment(request, post_id):
         comment.author = request.user
         comment.post = post
         comment.save()
-    return redirect('posts:post_detail', post_id=post_id)
+    return redirect("posts:post_detail", post_id=post_id)
 
 
 @login_required
 def follow_index(request):
-    template = 'posts/follow.html'
+    template = "posts/follow.html"
     posts = Post.objects.filter(author__following__user=request.user)
     paginator = Paginator(posts, QUANTITY)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
         "page_obj": page_obj,
@@ -148,8 +148,8 @@ def profile_follow(request, username):
             user=user,
             author=author
         )
-        return redirect('posts:follow_index')
-    return redirect('posts:profile', username=username)
+        return redirect("posts:follow_index")
+    return redirect("posts:profile", username=username)
 
 
 @login_required
@@ -158,4 +158,4 @@ def profile_unfollow(request, username):
     follow = request.user.follower.filter(author=unfollow)
     if follow.exists():
         follow.delete()
-    return redirect('posts:profile', username)
+    return redirect("posts:profile", username)
