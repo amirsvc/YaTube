@@ -1,3 +1,6 @@
-# hw05_final
+Учебный проект для освоения навыков работы с библиотекой Django.
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+Yatube - Веб приложение. Это социальная сеть для блогеров. В которой реализована
+авторизация на Django, работа с Базами Данных, создание индивидуальных страниц
+пользователей. Создание постов, их оценка и возможность добавить комментарии.
+
