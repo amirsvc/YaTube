@@ -1,17 +1,16 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '48)^bsw7$w79b$jx#rh$-660qu9r*3ymlgvk$8$@*%z@&ettbn'
+SECRET_KEY = os.getenv('SECRET_KEY', default='48)^bsw7$w79b$jx#rh$-660qu9r*3ymlgvk$8$@*%z@&ettbn')
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '[::1]',
-    'testserver',
-]
+ALLOWED_HOSTS = os.getenv('HOSTS', default='*').split(',')
 
 INTERNAL_IPS = [
     '127.0.0.1',
